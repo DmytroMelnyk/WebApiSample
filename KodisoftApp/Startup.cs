@@ -26,7 +26,7 @@ namespace KodisoftApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddIdentity<IdentityUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
+                //.AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
 
@@ -42,6 +42,7 @@ namespace KodisoftApp
                 options.ClientId = Configuration["GoogleOptions:ClientId"];
                 options.ClientSecret = Configuration["GoogleOptions:ClientSecret"];
             });
+
             services.AddMvc();
         }
 

@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.27130.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KodisoftApp", "KodisoftApp\KodisoftApp.csproj", "{610FE916-0DA1-4C98-A427-E9C9541DC4EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication3", "WebApplication3\WebApplication3.csproj", "{A2969B4D-DEF4-49ED-B3CA-0DB8F06A3D52}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication4", "WebApplication4\WebApplication4.csproj", "{5F437B0E-E665-42B6-9711-7E092F24C300}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{610FE916-0DA1-4C98-A427-E9C9541DC4EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{610FE916-0DA1-4C98-A427-E9C9541DC4EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{610FE916-0DA1-4C98-A427-E9C9541DC4EB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A2969B4D-DEF4-49ED-B3CA-0DB8F06A3D52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A2969B4D-DEF4-49ED-B3CA-0DB8F06A3D52}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A2969B4D-DEF4-49ED-B3CA-0DB8F06A3D52}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A2969B4D-DEF4-49ED-B3CA-0DB8F06A3D52}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F437B0E-E665-42B6-9711-7E092F24C300}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F437B0E-E665-42B6-9711-7E092F24C300}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F437B0E-E665-42B6-9711-7E092F24C300}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F437B0E-E665-42B6-9711-7E092F24C300}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

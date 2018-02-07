@@ -53,6 +53,7 @@ namespace WebApplication4
                 options.User.RequireUniqueEmail = false;
             });
 
+            // https://github.com/aspnet/Mvc/issues/6673
             services.AddAuthentication().AddGoogle(googleOptions =>
             {
                 googleOptions.ClientId = Configuration["Authentication:Google:ClientId"];

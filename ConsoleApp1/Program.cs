@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Reactive.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using AutoMapper;
 using Infrastructure;
 using Microsoft.SyndicationFeed;
 
@@ -9,24 +12,21 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
-            CustomRssFeedReader
-                .ReadRssItems("http://feeds.bbci.co.uk/news/world/rss.xml")
-                .Subscribe(x => Process(x), () =>
-            {
+            Mapper.Initialize(x => x.AddProfile(new AutomapperProfile()));
+            var source = new RssFeedSource(TimeSpan.FromSeconds(5), "http://feeds.bbci.co.uk/news/world/rss.xml", Mapper.Instance);
 
-            });
+            source
+                .Select(x => Observable.FromAsync(async () =>
+            {
+                    await Task.Delay(100);
+                    Console.WriteLine(x.Id);
+                
+            }))
+            .Concat()
+            .Subscribe();
+
             Console.WriteLine("Hello World!");
             Console.ReadLine();
-        }
-
-        static void Process(object item)
-        {
-
-        }
-
-        static void Process(ISyndicationItem item)
-        {
-
         }
     }
 }

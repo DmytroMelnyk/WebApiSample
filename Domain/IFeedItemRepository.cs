@@ -4,17 +4,20 @@ using System.Threading.Tasks;
 
 namespace Domain
 {
+    public interface IFeedItemSource : IObservable<FeedItem>
+    {
+    }
+
+    public interface IFeedItemSink : IObserver<FeedItem>
+    {
+    }
+
     public interface IFeedItemRepository
     {
-        Task AddAsync(FeedItem item);
-
         Task<FeedItem> GetAsync(string id);
     }
 
-    public interface IFeedItemSource
-    {
-        IObservable<FeedItem> Items { get; }
-    }
+    
 
     interface IFeedSourceRepository
     {
@@ -45,13 +48,9 @@ namespace Domain
 
     class Manager
     {
-        private readonly IFeedItemSource _feedSource;
-        private readonly IFeedItemRepository _feedRepository;
-
-        public Manager(IFeedItemSource feedSource, IFeedItemRepository feedRepository)
+        public Manager(IFeedItemSource feedSource, IFeedItemSink feedSink)
         {
-            _feedSource = feedSource;
-            _feedRepository = feedRepository;
+            feedSource.Subscribe(feedSink);
         }
     }
 }

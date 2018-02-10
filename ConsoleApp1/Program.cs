@@ -1,31 +1,34 @@
 ﻿using System;
-using System.Reactive.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using AutoMapper;
+using Domain;
+using Domain.FeedItems;
 using Infrastructure;
-using Microsoft.SyndicationFeed;
+using Microsoft.Extensions.Logging;
+using MongoDB.Driver;
 
 namespace ConsoleApp1
 {
     class Program
     {
-        static void Main(string[] args)
+        private static readonly ILoggerFactory LoggerFactory = new LoggerFactory().AddConsole(LogLevel.Trace);
+        private static readonly IMongoDatabase MongoDatabase = new MongoClient("mongodb://localhost").GetDatabase("KodisoftApp");
+
+        static Program()
         {
             Mapper.Initialize(x => x.AddProfile(new AutomapperProfile()));
-            var source = new RssFeedSource(TimeSpan.FromSeconds(5), "http://feeds.bbci.co.uk/news/world/rss.xml", Mapper.Instance);
+        }
 
-            source
-                .Select(x => Observable.FromAsync(async () =>
-            {
-                    await Task.Delay(100);
-                    Console.WriteLine(x.Id);
-                
-            }))
-            .Concat()
-            .Subscribe();
+        static void Main(string[] args)
+        {
+            var source = new RssFeedSource(
+                new FeedSettings("http://feeds.bbci.co.uk/news/world/rss.xml", "BBC", TimeSpan.FromSeconds(5)),
+                Mapper.Instance,
+                LoggerFactory.CreateLogger<RssFeedSource>());
 
-            Console.WriteLine("Hello World!");
+            var repo = new FeedItemRepository(MongoDatabase);
+
+            new FeedItemSourceSubscriptionManager(new[] { source }, repo);
+
             Console.ReadLine();
         }
     }

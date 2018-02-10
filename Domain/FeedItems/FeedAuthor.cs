@@ -1,4 +1,4 @@
-﻿namespace Domain
+﻿namespace Domain.FeedItems
 {
     public class FeedAuthor
     {

@@ -1,11 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Domain
+namespace Domain.FeedItems
 {
     public class FeedItem
     {
-        public FeedItem(string id, string title, string description, IEnumerable<string> categories, IEnumerable<FeedAuthor> contributors, IEnumerable<FeedLink> links, DateTimeOffset published)
+        public FeedItem(
+            string id, 
+            string title,
+            string description,
+            IEnumerable<string> categories,
+            IEnumerable<FeedAuthor> contributors,
+            IEnumerable<FeedLink> links,
+            DateTimeOffset published)
         {
             Id = id;
             Title = title;

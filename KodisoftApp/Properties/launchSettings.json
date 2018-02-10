@@ -3,7 +3,7 @@
     "KodisoftApp": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "api/values",
+      "launchUrl": "api/feeds",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

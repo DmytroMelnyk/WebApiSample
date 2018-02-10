@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
-using Domain;
+using Domain.FeedItems;
 using Microsoft.SyndicationFeed;
-using MongoDB.Bson;
 
 namespace Infrastructure
 {
@@ -11,19 +10,14 @@ namespace Infrastructure
     {
         public AutomapperProfile()
         {
-            CreateMap<ISyndicationItem, FeedItem>().ConstructUsing((item, ctx) =>
-            {
-                var retVal = new FeedItem(
-                    ObjectId.GenerateNewId().ToString(),
-                    item.Title,
-                    item.Description,
-                    item.Categories.Select(x => x.Name).ToList(),
-                    ctx.Mapper.Map<IEnumerable<FeedAuthor>>(item.Contributors),
-                    ctx.Mapper.Map<IEnumerable<FeedLink>>(item.Links),
-                    item.Published);
-
-                return retVal;
-            });
+            CreateMap<ISyndicationItem, FeedItem>().ConstructUsing((item, ctx) => new FeedItem(
+                item.Id,
+                item.Title,
+                item.Description,
+                item.Categories.Select(x => x.Name).ToList(),
+                ctx.Mapper.Map<IEnumerable<FeedAuthor>>(item.Contributors),
+                ctx.Mapper.Map<IEnumerable<FeedLink>>(item.Links),
+                item.Published));
 
             CreateMap<ISyndicationPerson, FeedAuthor>()
                 .ConstructUsing(x => new FeedAuthor(x.Email, x.Name));

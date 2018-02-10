@@ -7,7 +7,6 @@ using Domain.FeedItems;
 using Infrastructure.Extensions;
 using Microsoft.Extensions.Logging;
 using Microsoft.SyndicationFeed.Rss;
-using MongoDB.Bson;
 
 namespace Infrastructure
 {
@@ -18,6 +17,7 @@ namespace Infrastructure
 
         public RssFeedSource(FeedSettings settings, IMapper mapper, ILogger<RssFeedSource> logger)
         {
+            var pollingInterval = TimeSpan.FromMinutes(settings.PollingIntervalMin);
             SourceName = settings.SourceName;
             _logger = logger;
             _feedItemSourceImplementation = Observable
@@ -26,7 +26,7 @@ namespace Infrastructure
                         .Repeat()
                         .TakeWhile(x => x != null))
                 .Select(mapper.Map<FeedItem>)
-                .DelaySubscription(settings.PollingInterval)
+                .DelaySubscription(pollingInterval)
                 .Do(item => _logger.LogTrace($"Item with Id '{item.Id}' obtained from '{settings.SourceName}'."),
                     ex => _logger.LogError(ex, $"Error when reading rss feed with name '{settings.SourceName}' at address '{settings.Url}'."),
                     () => _logger.LogDebug($"Rss feed with name '{settings.SourceName}' at address '{settings.Url}' has just ended polling."))

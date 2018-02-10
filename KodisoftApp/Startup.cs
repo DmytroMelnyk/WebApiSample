@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Reflection;
 using Autofac;
 using Domain;
-using Domain.FeedItems;
 using Infrastructure;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Builder;
@@ -52,11 +50,10 @@ namespace KodisoftApp
                 ConnectionString = Configuration.GetConnectionString("DefaultConnection")
             });
 
-            builder.RegisterType<RssFeedSource>()
-                .As<IFeedItemSource>()
-                .WithParameter(new TypedParameter(typeof(FeedSettings),
-                    new FeedSettings("http://feeds.bbci.co.uk/news/world/rss.xml", "BBC", TimeSpan.FromSeconds(5))))
-                .SingleInstance();
+            builder.RegisterModule(new FeedsModule
+            {
+                Settings = Configuration.GetSection("Feeds").Get<FeedSettings[]>()
+            });
 
             builder.RegisterType<FeedItemSourceProvider>()
                 .AsSelf()
@@ -79,11 +76,11 @@ namespace KodisoftApp
             app.UseStaticFiles();
             app.UseSwaggerUi3(typeof(Startup).GetTypeInfo().Assembly, new SwaggerUi3Settings
             {
-                ServerUrl = "localhost:5000",
                 OAuth2Client = new OAuth2ClientSettings
                 {
                     ClientId = Configuration["Authentication:Google:ClientId"],
                     ClientSecret = Configuration["Authentication:Google:ClientSecret"],
+                    //RedirectUrl = "'http://localhost:5000/signin-google'"
                 },
                 DocumentProcessors =
                 {
@@ -107,7 +104,10 @@ namespace KodisoftApp
             app.UseAuthentication();
             app.UseMvc();
         }
+    }
 
-       
+    public class MyOAuth2ClientSettings : OAuth2ClientSettings
+    {
+        public string RedirectUrl { get; set; }
     }
 }

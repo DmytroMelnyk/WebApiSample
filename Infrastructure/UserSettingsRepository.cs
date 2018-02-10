@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Domain.Users;
@@ -22,8 +21,11 @@ namespace Infrastructure
         public Task AddSubscriptionAsync(string userId, string subscription) => Users
             .InsertOneAsync(new UserSubscription(userId, subscription));
 
+        public Task RemoveSubscriptionAsync(string userId, string subscription) => Users
+            .DeleteOneAsync(x => x.Id.Subscription == subscription && x.Id.UserId == userId);
+
         public IObservable<string> GetSubscriptionsAsync(string userId) => Users
-            .FindAll(x => x.UserId == userId)
-            .Select(x => x.Subscription);
+            .FindAll(x => x.Id.UserId == userId)
+            .Select(x => x.Id.Subscription);
     }
 }

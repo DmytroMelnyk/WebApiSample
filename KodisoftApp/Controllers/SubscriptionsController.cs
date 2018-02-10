@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Domain.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace KodisoftApp.Controllers
 {
@@ -20,17 +21,43 @@ namespace KodisoftApp.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<string>> GetSubscriptionsAsync()
+        public async Task<IEnumerable<string>> GetSubscriptions()
         {
             var mail = User.FindFirst(x => x.Type == ClaimTypes.Email).Value;
             return await _userSettingsRepository.GetSubscriptionsAsync(mail).ToList();
         }
 
-        [HttpPut("[action]")]
-        public Task SubscribeAsync([FromQuery] string sourceName)
+        [HttpPut]
+        public async Task<IActionResult> Subscribe([FromQuery]QueryParams @params)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
             var mail = User.FindFirst(x => x.Type == ClaimTypes.Email).Value;
-            return _userSettingsRepository.AddSubscriptionAsync(mail, sourceName);
+            await _userSettingsRepository.AddSubscriptionAsync(mail, @params.SourceName);
+            return Ok();
+
         }
-    }
+
+        [HttpDelete]
+        public async Task<IActionResult> Unsubscribe([FromQuery]QueryParams @params)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            var mail = User.FindFirst(x => x.Type == ClaimTypes.Email).Value;
+            await _userSettingsRepository.RemoveSubscriptionAsync(mail, @params.SourceName);
+            return Ok();
+        }
+
+        public class QueryParams
+        {
+            [BindRequired]
+            public string SourceName { get; set; }
+        }
+     }
 }

@@ -1,15 +1,18 @@
-﻿namespace Domain.FeedItems
+﻿using Domain.FeedItems;
+using MongoDB.Bson;
+
+namespace Infrastructure
 {
     public class FeedItemHolder
     {
-        public FeedItemHolder(string id, string source, FeedItem feedItem)
+        public FeedItemHolder(ObjectId id, string source, FeedItem feedItem)
         {
             Id = id;
             Source = source;
             FeedItem = feedItem;
         }
 
-        public string Id { get; }
+        public ObjectId Id { get; }
 
         public string Source { get; }
 

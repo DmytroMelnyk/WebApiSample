@@ -29,7 +29,7 @@ namespace Infrastructure
 
         public async Task<FeedItem> GetAsync(string id)
         {
-            var cursor = await FeedItems.FindAsync(x => x.Id == id);
+            var cursor = await FeedItems.FindAsync(x => x.FeedItem.Id == id);
             var holder = await cursor.FirstOrDefaultAsync();
             return holder?.FeedItem;
         }

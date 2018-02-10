@@ -7,6 +7,8 @@ namespace Domain.Users
     {
         Task AddSubscriptionAsync(string userId, string subscription);
 
+        Task RemoveSubscriptionAsync(string userId, string subscription);
+
         IObservable<string> GetSubscriptionsAsync(string userId);
     }
 }

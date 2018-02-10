@@ -1,7 +1,5 @@
 ﻿using System;
 using AutoMapper;
-using Domain;
-using Domain.FeedItems;
 using Infrastructure;
 using Microsoft.Extensions.Logging;
 using MongoDB.Driver;
@@ -21,7 +19,12 @@ namespace ConsoleApp1
         static void Main(string[] args)
         {
             var source = new RssFeedSource(
-                new FeedSettings("http://feeds.bbci.co.uk/news/world/rss.xml", "BBC", TimeSpan.FromSeconds(5)),
+                new FeedSettings
+                {
+                    SourceName = "BBC",
+                    Url = "http://feeds.bbci.co.uk/news/world/rss.xml",
+                    PollingIntervalMin = 1
+                },
                 Mapper.Instance,
                 LoggerFactory.CreateLogger<RssFeedSource>());
 

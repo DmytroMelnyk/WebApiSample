@@ -1,15 +1,28 @@
-﻿namespace Infrastructure
+﻿using MongoDB.Bson.Serialization.Attributes;
+
+namespace Infrastructure
 {
     public class UserSubscription
     {
         public UserSubscription(string userId, string subscription)
         {
-            UserId = userId;
-            Subscription = subscription;
+            Id = new UserSubscriptionId(userId, subscription);
         }
 
-        public string UserId { get; }
+        [BsonId]
+        public UserSubscriptionId Id { get; set; }
 
-        public string Subscription { get; }
+        public class UserSubscriptionId
+        {
+            public UserSubscriptionId(string userId, string subscription)
+            {
+                UserId = userId;
+                Subscription = subscription;
+            }
+
+            public string UserId { get; }
+
+            public string Subscription { get; }
+        }
     }
 }

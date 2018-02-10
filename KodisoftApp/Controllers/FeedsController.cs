@@ -18,11 +18,9 @@ namespace KodisoftApp.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return _feedItemSourceProvider.GetAll().Select(x => x.SourceName);
-            //var mail = User.FindFirst(x => x.Type == ClaimTypes.Email).Value;
-            //return User.Claims.Select(x => x.Value);
-        }
+        [ResponseCache(Location = ResponseCacheLocation.Client, Duration = 3600)]
+        public IEnumerable<string> Get() => _feedItemSourceProvider
+            .GetAll()
+            .Select(x => x.SourceName);
     }
 }

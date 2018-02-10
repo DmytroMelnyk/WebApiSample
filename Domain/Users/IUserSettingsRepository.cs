@@ -1,14 +1,12 @@
-using System.Collections.Generic;
+using System;
 using System.Threading.Tasks;
 
 namespace Domain.Users
 {
-    public interface IUserSettingsRepository
+    public interface IUserSubscriptionsRepository
     {
-        Task AddUserAsync(User user);
+        Task AddSubscriptionAsync(string userId, string subscription);
 
-        Task AddSubscriptionAsync(string id, string subscription);
-
-        Task<User> GetUserAsync(string id);
+        IObservable<string> GetSubscriptionsAsync(string userId);
     }
 }

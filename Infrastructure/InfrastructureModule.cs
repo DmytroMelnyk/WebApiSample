@@ -26,8 +26,8 @@ namespace Infrastructure
                 .As<IFeedItemSink>()
                 .InstancePerLifetimeScope();
 
-            builder.RegisterType<UserSettingsRepository>()
-                .As<IUserSettingsRepository>()
+            builder.RegisterType<UserSubscriptionsRepository>()
+                .As<IUserSubscriptionsRepository>()
                 .InstancePerLifetimeScope();
 
             builder.RegisterType<AutomapperProfile>()

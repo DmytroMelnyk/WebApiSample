@@ -4,6 +4,6 @@ namespace Domain.FeedItems
 {
     public interface IFeedItemSink
     {
-        Task OnNextFeedItemAsync(FeedItemHolder item);
+        Task OnNextFeedItemAsync(FeedItem item, string sourceName);
     }
 }

@@ -27,7 +27,6 @@ namespace ConsoleApp1
 
             var repo = new FeedItemRepository(MongoDatabase);
 
-            new FeedItemSourceSubscriptionManager(new[] { source }, repo);
 
             Console.ReadLine();
         }

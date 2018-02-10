@@ -5,8 +5,8 @@ namespace Domain.FeedItems
 {
     public interface IFeedItemRepository
     {
-        Task<FeedItemHolder> GetAsync(string id);
+        Task<FeedItem> GetAsync(string id);
 
-        IObservable<FeedItemHolder> GetItems(string source);
+        IObservable<FeedItem> GetItems(string source);
     }
 }

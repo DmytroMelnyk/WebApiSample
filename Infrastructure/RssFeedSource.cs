@@ -42,7 +42,7 @@ namespace Infrastructure
             {
                 try
                 {
-                    await feedItemSink.OnNextFeedItemAsync(new FeedItemHolder(ObjectId.GenerateNewId().ToString(), SourceName, item));
+                    await feedItemSink.OnNextFeedItemAsync(item, SourceName);
                 }
                 catch (Exception e)
                 {

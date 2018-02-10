@@ -2,6 +2,7 @@
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Domain.FeedItems;
+using Infrastructure.Extensions;
 using MongoDB.Driver;
 
 namespace Infrastructure
@@ -17,27 +18,24 @@ namespace Infrastructure
 
         private IMongoCollection<FeedItemHolder> FeedItems => _database.GetCollection<FeedItemHolder>("feedItems");
 
-        public Task OnNextFeedItemAsync(FeedItemHolder item) => FeedItems
+        public Task OnNextFeedItemAsync(FeedItem item, string sourceName) => FeedItems
             .UpdateOneAsync(
-                x => x.FeedItem.Id == item.FeedItem.Id,
-                Builders<FeedItemHolder>.Update.Set(x => x.FeedItem, item.FeedItem),
+                x => x.FeedItem.Id == item.Id,
+                Builders<FeedItemHolder>.Update.Set(x => x.FeedItem, item).Set(x => x.Source, sourceName),
                 new UpdateOptions
                 {
                     IsUpsert = true
                 });
 
-        public async Task<FeedItemHolder> GetAsync(string id)
+        public async Task<FeedItem> GetAsync(string id)
         {
             var cursor = await FeedItems.FindAsync(x => x.Id == id);
-            return await cursor.FirstOrDefaultAsync();
+            var holder = await cursor.FirstOrDefaultAsync();
+            return holder?.FeedItem;
         }
 
-        public IObservable<FeedItemHolder> GetItems(string source) => Observable
-            .FromAsync(ct => FeedItems.FindAsync(x => x.Source == source, null, ct))
-            .SelectMany(cursor => Observable
-                .FromAsync(cursor.MoveNextAsync)
-                .Repeat()
-                .TakeWhile(x => x)
-                .SelectMany(_ => cursor.Current));
+        public IObservable<FeedItem> GetItems(string source) => FeedItems
+            .FindAll(x => x.Source == source)
+            .Select(x => x.FeedItem);
     }
 }

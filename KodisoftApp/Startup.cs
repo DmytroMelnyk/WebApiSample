@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
 using Autofac;
 using Domain;
 using Domain.FeedItems;
@@ -9,6 +11,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using NSwag;
+using NSwag.AspNetCore;
+using NSwag.SwaggerGeneration.Processors.Security;
 
 namespace KodisoftApp
 {
@@ -42,7 +47,10 @@ namespace KodisoftApp
 
         public void ConfigureContainer(ContainerBuilder builder)
         {
-            builder.RegisterModule<InfrastructureModule>();
+            builder.RegisterModule(new InfrastructureModule
+            {
+                ConnectionString = Configuration.GetConnectionString("DefaultConnection")
+            });
 
             builder.RegisterType<RssFeedSource>()
                 .As<IFeedItemSource>()
@@ -68,8 +76,38 @@ namespace KodisoftApp
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseStaticFiles();
+            app.UseSwaggerUi3(typeof(Startup).GetTypeInfo().Assembly, new SwaggerUi3Settings
+            {
+                ServerUrl = "localhost:5000",
+                OAuth2Client = new OAuth2ClientSettings
+                {
+                    ClientId = Configuration["Authentication:Google:ClientId"],
+                    ClientSecret = Configuration["Authentication:Google:ClientSecret"],
+                },
+                DocumentProcessors =
+                {
+                    new SecurityDefinitionAppender("oauth2", new SwaggerSecurityScheme
+                    {
+                        Type = SwaggerSecuritySchemeType.OAuth2,
+                        Flow = SwaggerOAuth2Flow.Implicit,
+                        AuthorizationUrl = GoogleDefaults.AuthorizationEndpoint,
+                        TokenUrl = GoogleDefaults.TokenEndpoint,
+                        Scopes = new Dictionary<string,string>
+                        {
+                            ["email"] = "Identifies user"
+                        }
+                    })
+                },
+                OperationProcessors =
+                {
+                    new OperationSecurityScopeProcessor("oauth2")
+                }
+            });
             app.UseAuthentication();
             app.UseMvc();
         }
+
+       
     }
 }

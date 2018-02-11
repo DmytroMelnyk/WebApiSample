@@ -9,6 +9,9 @@ namespace Infrastructure.FeedItems
 {
     public class FeedItemRepository : IFeedItemSink, IFeedItemRepository
     {
+        private static readonly Collation FeedItemCollations =
+            new Collation("en", strength: new Optional<CollationStrength?>(CollationStrength.Primary));
+
         private readonly IMongoDatabase _database;
 
         public FeedItemRepository(IMongoDatabase database)
@@ -24,11 +27,15 @@ namespace Infrastructure.FeedItems
                 Builders<FeedItemHolder>.Update.Set(x => x.FeedItem, item).Set(x => x.Source, sourceName),
                 new UpdateOptions
                 {
-                    IsUpsert = true
+                    IsUpsert = true,
+                    Collation = FeedItemCollations
                 });
 
         public IObservable<FeedItem> GetItems(string source) => FeedItems
-            .FindAll(x => x.Source == source)
+            .FindAll(x => x.Source == source, new FindOptions<FeedItemHolder>
+            {
+                Collation = FeedItemCollations
+            })
             .Select(x => x.FeedItem);
     }
 }

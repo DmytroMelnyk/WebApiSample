@@ -17,6 +17,10 @@ namespace KodisoftApp
                 .As<IUserIdProvider>()
                 .InstancePerLifetimeScope();
 
+            builder.RegisterType<FeedItemsProvider>()
+                .AsSelf()
+                .SingleInstance();
+
             builder.RegisterType<FeedItemSourceProvider>()
                 .AsSelf()
                 .SingleInstance();

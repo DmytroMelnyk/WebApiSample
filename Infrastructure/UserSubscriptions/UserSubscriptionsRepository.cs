@@ -25,7 +25,10 @@ namespace Infrastructure.UserSubscriptions
             .InsertOneAsync(new UserSubscription(userId, subscription));
 
         public Task RemoveSubscriptionAsync(string userId, string subscription) => Users
-            .DeleteOneAsync(x => x.Subscription == subscription && x.UserId == userId);
+            .DeleteOneAsync(x => x.Subscription == subscription && x.UserId == userId, new DeleteOptions
+            {
+                Collation = UserSubscriptionCollation
+            });
 
         public IObservable<string> GetSubscriptionsAsync(string userId) => Users
             .FindAll(x => x.UserId == userId, new FindOptions<UserSubscription> 

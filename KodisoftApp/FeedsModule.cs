@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Autofac;
+using Domain;
 using Domain.FeedItems;
 using Infrastructure;
 
@@ -11,6 +12,15 @@ namespace KodisoftApp
 
         protected override void Load(ContainerBuilder builder)
         {
+            builder.RegisterType<FeedItemSourceProvider>()
+                .AsSelf()
+                .SingleInstance();
+
+            builder.RegisterType<FeedItemSourceSubscriptionManager>()
+                .AsSelf()
+                .SingleInstance()
+                .AutoActivate();
+
             foreach (var feedSettings in Settings)
             {
                 builder.RegisterType<RssFeedSource>()

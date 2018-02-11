@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
 using Autofac;
-using Domain;
 using Infrastructure;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Builder;
@@ -54,15 +53,6 @@ namespace KodisoftApp
             {
                 Settings = Configuration.GetSection("Feeds").Get<FeedSettings[]>()
             });
-
-            builder.RegisterType<FeedItemSourceProvider>()
-                .AsSelf()
-                .SingleInstance();
-
-            builder.RegisterType<FeedItemSourceSubscriptionManager>()
-                .AsSelf()
-                .SingleInstance()
-                .AutoActivate();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -19,7 +19,7 @@ namespace Infrastructure.UserSubscriptions
             _mongoDatabase = mongoDatabase;
         }
 
-        public IMongoCollection<UserSubscription> Users => _mongoDatabase.GetCollection<UserSubscription>("users");
+        public IMongoCollection<UserSubscription> Users => _mongoDatabase.GetCollection<UserSubscription>("userSubscriptions");
 
         public Task AddSubscriptionAsync(string userId, string subscription) => Users
             .InsertOneAsync(new UserSubscription(userId, subscription));

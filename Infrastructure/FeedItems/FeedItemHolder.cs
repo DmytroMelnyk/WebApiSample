@@ -5,17 +5,10 @@ namespace Infrastructure.FeedItems
 {
     public class FeedItemHolder
     {
-        public FeedItemHolder(ObjectId id, string source, FeedItem feedItem)
-        {
-            Id = id;
-            Source = source;
-            FeedItem = feedItem;
-        }
+        public ObjectId Id { get; private set; }
 
-        public ObjectId Id { get; }
+        public string Source { get; private set; }
 
-        public string Source { get; }
-
-        public FeedItem FeedItem { get; }
+        public FeedItem FeedItem { get; private set; }
     }
 }

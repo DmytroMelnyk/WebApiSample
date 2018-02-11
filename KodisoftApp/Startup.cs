@@ -65,7 +65,7 @@ namespace KodisoftApp
             }
 
             app.UseStaticFiles();
-            app.UseSwaggerUi3(typeof(Startup).GetTypeInfo().Assembly, new SwaggerUi3Settings
+            app.UseSwaggerUi(typeof(Startup).GetTypeInfo().Assembly, new SwaggerUiSettings
             {
                 OAuth2Client = new OAuth2ClientSettings
                 {
@@ -77,7 +77,7 @@ namespace KodisoftApp
                     new SecurityDefinitionAppender("oauth2", new SwaggerSecurityScheme
                     {
                         Type = SwaggerSecuritySchemeType.OAuth2,
-                        Flow = SwaggerOAuth2Flow.AccessCode,
+                        Flow = SwaggerOAuth2Flow.Implicit,
                         AuthorizationUrl = GoogleDefaults.AuthorizationEndpoint,
                         TokenUrl = GoogleDefaults.TokenEndpoint,
                         Scopes = new Dictionary<string,string>

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Reactive.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
-using Domain.Users;
+using Domain.UserSubscriptions;
+using KodisoftApp.Infrastructure;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -14,17 +14,19 @@ namespace KodisoftApp.Controllers
     public class SubscriptionsController : Controller
     {
         private readonly IUserSubscriptionsRepository _userSettingsRepository;
+        private readonly IUserIdProvider _userIdProvider;
 
-        public SubscriptionsController(IUserSubscriptionsRepository userSettingsRepository)
+        public SubscriptionsController(IUserSubscriptionsRepository userSettingsRepository, IUserIdProvider userIdProvider)
         {
             _userSettingsRepository = userSettingsRepository;
+            _userIdProvider = userIdProvider;
         }
 
         [HttpGet]
         public async Task<IEnumerable<string>> GetSubscriptions()
         {
-            var mail = User.FindFirst(x => x.Type == ClaimTypes.Email).Value;
-            return await _userSettingsRepository.GetSubscriptionsAsync(mail).ToList();
+            var id = _userIdProvider.GetId(User);
+            return await _userSettingsRepository.GetSubscriptionsAsync(id).ToList();
         }
 
         [HttpPut]
@@ -35,8 +37,8 @@ namespace KodisoftApp.Controllers
                 return BadRequest();
             }
 
-            var mail = User.FindFirst(x => x.Type == ClaimTypes.Email).Value;
-            await _userSettingsRepository.AddSubscriptionAsync(mail, @params.SourceName);
+            var id = _userIdProvider.GetId(User);
+            await _userSettingsRepository.AddSubscriptionAsync(id, @params.SourceName);
             return Ok();
 
         }
@@ -49,8 +51,8 @@ namespace KodisoftApp.Controllers
                 return BadRequest();
             }
 
-            var mail = User.FindFirst(x => x.Type == ClaimTypes.Email).Value;
-            await _userSettingsRepository.RemoveSubscriptionAsync(mail, @params.SourceName);
+            var id = _userIdProvider.GetId(User);
+            await _userSettingsRepository.RemoveSubscriptionAsync(id, @params.SourceName);
             return Ok();
         }
 

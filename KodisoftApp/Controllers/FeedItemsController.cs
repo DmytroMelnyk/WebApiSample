@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Reactive.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
+using Domain;
 using Domain.FeedItems;
-using Domain.Users;
+using KodisoftApp.Infrastructure;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,24 +13,20 @@ namespace KodisoftApp.Controllers
     [Route("api/[controller]")]
     public class FeedItemsController : Controller
     {
-        private readonly IFeedItemRepository _feedItemRepository;
-        private readonly IUserSubscriptionsRepository _subscriptionsRepository;
+        private readonly FeedItemsProvider _feedItemsProvider;
+        private readonly IUserIdProvider _userIdProvider;
 
-        public FeedItemsController(IFeedItemRepository feedItemRepository, IUserSubscriptionsRepository subscriptionsRepository)
+        public FeedItemsController(FeedItemsProvider feedItemsProvider, IUserIdProvider userIdProvider)
         {
-            _feedItemRepository = feedItemRepository;
-            _subscriptionsRepository = subscriptionsRepository;
+            _feedItemsProvider = feedItemsProvider;
+            _userIdProvider = userIdProvider;
         }
 
         [HttpGet]
-        [ResponseCache(Location = ResponseCacheLocation.Client, Duration = 3600)]
         public async Task<IEnumerable<FeedItem>> Get()
         {
-            var mail = User.FindFirst(x => x.Type == ClaimTypes.Email).Value;
-            return await _subscriptionsRepository
-                .GetSubscriptionsAsync(mail)
-                .SelectMany(_feedItemRepository.GetItems)
-                .ToList();
+            var id = _userIdProvider.GetId(User);
+            return await _feedItemsProvider.GetFeedItems(id).ToList();
         } 
     }
 }

@@ -8,8 +8,8 @@ namespace Infrastructure.Extensions
 {
     public static class MongoCollectionExtensions
     {
-        public static IObservable<T> FindAll<T>(this IMongoCollection<T> @this, Expression<Func<T, bool>> predicate) => Observable
-            .FromAsync(ct => @this.FindAsync(predicate, null, ct))
+        public static IObservable<T> FindAll<T>(this IMongoCollection<T> @this, Expression<Func<T, bool>> predicate, FindOptions<T> options = null) => Observable
+            .FromAsync(ct => @this.FindAsync(predicate, options, ct))
             .SelectMany(cursor => Observable
                 .FromAsync(cursor.MoveNextAsync, Scheduler.CurrentThread)
                 .Repeat()

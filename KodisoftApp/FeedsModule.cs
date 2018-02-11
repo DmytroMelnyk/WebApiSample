@@ -2,7 +2,8 @@
 using Autofac;
 using Domain;
 using Domain.FeedItems;
-using Infrastructure;
+using Infrastructure.FeedItems;
+using KodisoftApp.Infrastructure;
 
 namespace KodisoftApp
 {
@@ -12,6 +13,10 @@ namespace KodisoftApp
 
         protected override void Load(ContainerBuilder builder)
         {
+            builder.RegisterType<UserIdProvider>()
+                .As<IUserIdProvider>()
+                .InstancePerLifetimeScope();
+
             builder.RegisterType<FeedItemSourceProvider>()
                 .AsSelf()
                 .SingleInstance();

@@ -2,6 +2,7 @@
 using System.Reflection;
 using Autofac;
 using Infrastructure;
+using Infrastructure.FeedItems;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -70,14 +71,13 @@ namespace KodisoftApp
                 {
                     ClientId = Configuration["Authentication:Google:ClientId"],
                     ClientSecret = Configuration["Authentication:Google:ClientSecret"],
-                    //RedirectUrl = "'http://localhost:5000/signin-google'"
                 },
                 DocumentProcessors =
                 {
                     new SecurityDefinitionAppender("oauth2", new SwaggerSecurityScheme
                     {
                         Type = SwaggerSecuritySchemeType.OAuth2,
-                        Flow = SwaggerOAuth2Flow.Implicit,
+                        Flow = SwaggerOAuth2Flow.AccessCode,
                         AuthorizationUrl = GoogleDefaults.AuthorizationEndpoint,
                         TokenUrl = GoogleDefaults.TokenEndpoint,
                         Scopes = new Dictionary<string,string>
@@ -94,10 +94,5 @@ namespace KodisoftApp
             app.UseAuthentication();
             app.UseMvc();
         }
-    }
-
-    public class MyOAuth2ClientSettings : OAuth2ClientSettings
-    {
-        public string RedirectUrl { get; set; }
     }
 }

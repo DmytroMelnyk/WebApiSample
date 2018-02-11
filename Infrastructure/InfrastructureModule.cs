@@ -2,7 +2,9 @@
 using Autofac;
 using AutoMapper;
 using Domain.FeedItems;
-using Domain.Users;
+using Domain.UserSubscriptions;
+using Infrastructure.FeedItems;
+using Infrastructure.UserSubscriptions;
 using MongoDB.Driver;
 
 namespace Infrastructure
@@ -28,7 +30,16 @@ namespace Infrastructure
 
             builder.RegisterType<UserSubscriptionsRepository>()
                 .As<IUserSubscriptionsRepository>()
+                .As<IConfigurableRepository>()
                 .InstancePerLifetimeScope();
+
+            builder.RegisterBuildCallback(x =>
+            {
+                foreach (var configurableRepository in x.Resolve<IEnumerable<IConfigurableRepository>>())
+                {
+                    configurableRepository.Configure();
+                }
+            });
 
             builder.RegisterType<AutomapperProfile>()
                 .As<Profile>()

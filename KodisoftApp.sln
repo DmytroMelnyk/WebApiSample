@@ -5,15 +5,11 @@ VisualStudioVersion = 15.0.27130.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KodisoftApp", "KodisoftApp\KodisoftApp.csproj", "{610FE916-0DA1-4C98-A427-E9C9541DC4EB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApplication4", "WebApplication4\WebApplication4.csproj", "{5F437B0E-E665-42B6-9711-7E092F24C300}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{43E8D5F3-1025-4AB4-BDD8-E196D83B25AA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{754671E3-700B-4E86-9765-851DA49661F5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{8EDEB1B0-4FE7-4C78-8156-62B761738DA8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{8EDEB1B0-4FE7-4C78-8156-62B761738DA8}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain.Tests", "Domain.Tests\Domain.Tests.csproj", "{F9D30EA0-387F-4347-AB1C-893347A23BCE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain.Tests", "Domain.Tests\Domain.Tests.csproj", "{F9D30EA0-387F-4347-AB1C-893347A23BCE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,18 +21,10 @@ Global
 		{610FE916-0DA1-4C98-A427-E9C9541DC4EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{610FE916-0DA1-4C98-A427-E9C9541DC4EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{610FE916-0DA1-4C98-A427-E9C9541DC4EB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5F437B0E-E665-42B6-9711-7E092F24C300}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5F437B0E-E665-42B6-9711-7E092F24C300}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5F437B0E-E665-42B6-9711-7E092F24C300}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5F437B0E-E665-42B6-9711-7E092F24C300}.Release|Any CPU.Build.0 = Release|Any CPU
 		{43E8D5F3-1025-4AB4-BDD8-E196D83B25AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{43E8D5F3-1025-4AB4-BDD8-E196D83B25AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{43E8D5F3-1025-4AB4-BDD8-E196D83B25AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{43E8D5F3-1025-4AB4-BDD8-E196D83B25AA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{754671E3-700B-4E86-9765-851DA49661F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{754671E3-700B-4E86-9765-851DA49661F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{754671E3-700B-4E86-9765-851DA49661F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{754671E3-700B-4E86-9765-851DA49661F5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8EDEB1B0-4FE7-4C78-8156-62B761738DA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8EDEB1B0-4FE7-4C78-8156-62B761738DA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8EDEB1B0-4FE7-4C78-8156-62B761738DA8}.Release|Any CPU.ActiveCfg = Release|Any CPU

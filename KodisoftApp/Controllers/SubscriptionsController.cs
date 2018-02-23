@@ -25,7 +25,7 @@ namespace KodisoftApp.Controllers
         [HttpGet]
         public async Task<IEnumerable<string>> GetSubscriptions()
         {
-            var id = _userIdProvider.GetId(User);
+            var id = _userIdProvider.User;
             return await _userSettingsRepository.GetSubscriptionsAsync(id).ToList();
         }
 
@@ -37,7 +37,7 @@ namespace KodisoftApp.Controllers
                 return BadRequest();
             }
 
-            var id = _userIdProvider.GetId(User);
+            var id = _userIdProvider.User;
             await _userSettingsRepository.AddSubscriptionAsync(id, @params.SourceName);
             return Ok();
 
@@ -51,7 +51,7 @@ namespace KodisoftApp.Controllers
                 return BadRequest();
             }
 
-            var id = _userIdProvider.GetId(User);
+            var id = _userIdProvider.User;
             await _userSettingsRepository.RemoveSubscriptionAsync(id, @params.SourceName);
             return Ok();
         }

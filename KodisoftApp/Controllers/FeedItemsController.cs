@@ -25,7 +25,7 @@ namespace KodisoftApp.Controllers
         [HttpGet]
         public async Task<IEnumerable<FeedItem>> Get()
         {
-            var id = _userIdProvider.GetId(User);
+            var id = _userIdProvider.User;
             return await _feedItemsProvider.GetFeedItems(id).ToList();
         } 
     }
